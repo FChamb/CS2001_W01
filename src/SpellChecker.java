@@ -16,7 +16,7 @@ public class SpellChecker implements ISpellChecker {
                 throw new ArrayIndexOutOfBoundsException();
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Usage: java SpellChecker");
+            System.out.println("Usage: java SpellChecker <words_to_check>");
             System.exit(1);
         }
         for (int i = 0; i < args.length; i++) {
@@ -48,7 +48,7 @@ public class SpellChecker implements ISpellChecker {
         if (index > 0) {
             return new SpellCheckResult(true, null, null);
         } else {
-            index = Math.abs(index);
+            index = Math.abs(index - 1);
         }
         return new SpellCheckResult(false, dictionary[index - 1], dictionary[index + 1]);
     }
