@@ -48,7 +48,7 @@ public class SpellChecker implements ISpellChecker {
         if (index > 0) {
             return new SpellCheckResult(true, null, null);
         } else {
-            index = Math.abs(index);
+            index = Math.abs(index + 1);
         }
         return new SpellCheckResult(false, dictionary[index - 1], dictionary[index]);
     }
