@@ -3,7 +3,6 @@ import java.util.Arrays;
 public class SpellChecker implements ISpellChecker {
 
     String[] dictionary;
-    boolean validWord = false;
 
     public SpellChecker() {
         this.dictionary = DictionaryLoader.getInstance().loadDictionary();
@@ -23,24 +22,34 @@ public class SpellChecker implements ISpellChecker {
         for (int i = 0; i < args.length; i++) {
             input[i] = args[i].toLowerCase();
         }
-        if (input.length > 1) {
-            checker.runChecker(input);
-        } else {
-            checker.check(input[0]);
-        }
+        checker.runChecker(input);
     }
 
     @Override
     public void runChecker(String[] words) {
-
+        int index = 0;
+        SpellCheckResult[] results = new SpellCheckResult[words.length];
+        for (int i = 0; i < words.length; i++) {
+            results[i] = check(words[i]);
+        }
+        for (SpellCheckResult result : results) {
+            if (result.isCorrect()) {
+                System.out.println(words[index] + " correct");
+            } else {
+                System.out.println(words[index] + " not found - nearest neighbour(s) " + result.getBefore() + " and " + result.getAfter());
+            }
+            index++;
+        }
     }
 
     @Override
     public SpellCheckResult check(String word) {
-        int index = Arrays.binarySearch(this.dictionary, 0, this.dictionary.length, word);
-        if (index != -1) {
-            this.validWord = true;
+        int index = Arrays.binarySearch(this.dictionary, word);
+        if (index > 0) {
+            return new SpellCheckResult(true, null, null);
+        } else {
+            index = Math.abs(index);
         }
-        return null;
+        return new SpellCheckResult(false, dictionary[index - 1], dictionary[index + 1]);
     }
 }
