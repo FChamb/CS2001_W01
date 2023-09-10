@@ -90,7 +90,7 @@ public class SpellChecker implements ISpellChecker {
 
     /**
      * getDictionary is an accessor method which returns the instance of dictionary
-     * in this class
+     * in this class.
      * @return a string array of dictionary words
      */
     public String[] getDictionary() {
